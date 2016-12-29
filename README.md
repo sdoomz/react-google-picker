@@ -23,6 +23,7 @@ Usage
               navHidden={true}
               authImmediate={false}
               viewId={'DOCS'}>
+   <MyCustomButton />           
 </GooglePicker>                    
 ```
 
