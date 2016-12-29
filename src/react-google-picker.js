@@ -124,7 +124,11 @@ export default class GoogleChooser extends React.Component {
   render() {
     return (
       <div onClick={this.onChoose}>
-        {this.props.children}
+        {
+          this.props.children ?
+            this.props.children :
+            <button>Open google chooser</button>
+        }
       </div>
     );
   }
