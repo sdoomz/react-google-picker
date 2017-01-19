@@ -17,7 +17,8 @@ export default class GoogleChooser extends React.Component {
     origin: React.PropTypes.string,
     onChange: React.PropTypes.func,
     multiselect: React.PropTypes.bool,
-    navHidden: React.PropTypes.bool
+    navHidden: React.PropTypes.bool,
+    disabled: React.PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export default class GoogleChooser extends React.Component {
     viewId: 'DOCS',
     authImmediate: false,
     multiselect: false,
-    navHidden: false
+    navHidden: false,
+    disabled: false
   };
 
   constructor(props) {
@@ -78,7 +80,7 @@ export default class GoogleChooser extends React.Component {
   }
 
   onChoose() {
-    if (!this.isGoogleReady() || !this.isGoogleAuthReady() || !this.isGooglePickerReady()) {
+    if (!this.isGoogleReady() || !this.isGoogleAuthReady() || !this.isGooglePickerReady() || this.props.disabled) {
       return null;
     }
 
