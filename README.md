@@ -18,9 +18,10 @@ Usage
               multiselect={true}
               navHidden={true}
               authImmediate={false}
+              mimeTypes={['image/png', 'image/jpeg', 'image/jpg']}
               viewId={'DOCS'}>
-   <MyCustomButton />           
-</GooglePicker>                    
+   <MyCustomButton />
+</GooglePicker>
 ```
 
 Demo 

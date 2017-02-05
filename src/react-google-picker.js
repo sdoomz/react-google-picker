@@ -18,7 +18,8 @@ export default class GoogleChooser extends React.Component {
     onChange: React.PropTypes.func,
     multiselect: React.PropTypes.bool,
     navHidden: React.PropTypes.bool,
-    disabled: React.PropTypes.bool
+    disabled: React.PropTypes.bool,
+    mimeTypes: React.PropTypes.array
   };
 
   static defaultProps = {
@@ -99,6 +100,10 @@ export default class GoogleChooser extends React.Component {
 
     if (!view) {
       throw new Error('Can\'t find view by viewId');
+    }
+
+    if (this.props.mimeTypes) {
+        view.setMimeTypes(this.props.mimeTypes.join(','))
     }
 
     const picker = new window.google.picker.PickerBuilder()
