@@ -1,6 +1,6 @@
 {
   "name": "react-google-picker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple react wrapper for google picker API",
   "main": "dist/react-google-picker.js",
   "scripts": {
