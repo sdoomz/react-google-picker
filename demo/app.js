@@ -16,6 +16,7 @@ function App() {
                     multiselect={true}
                     navHidden={true}
                     authImmediate={false}
+                    mimeTypes={['image/png', 'image/jpeg', 'image/jpg']}
                     viewId={'DOCS'}>
         <span>Click me!</span>
         <div className="google"></div>
