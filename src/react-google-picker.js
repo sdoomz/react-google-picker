@@ -95,7 +95,12 @@ export default class GoogleChooser extends React.Component {
   }
 
   createPicker(oauthToken) {
-    const view = window.google.picker.ViewId[this.props.viewId];
+    const googleViewId = google.picker.ViewId[this.props.viewId];
+    const view = new window.google.picker.View(googleViewId);
+
+    if (this.props.mimeTypes) {
+      view.setMimeTypes(this.props.mimeTypes.join(','))
+    }
 
     if (!view) {
       throw new Error('Can\'t find view by viewId');
