@@ -7,18 +7,19 @@ let scriptLoadingStarted = false;
 
 export default class GoogleChooser extends React.Component {
 
-  static propTypes = {
-    children: React.PropTypes.node,
-    clientId: React.PropTypes.string.isRequired,
-    developerKey: React.PropTypes.string.isRequired,
-    scope: React.PropTypes.array,
-    viewId: React.PropTypes.string,
-    authImmediate: React.PropTypes.bool,
-    origin: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    multiselect: React.PropTypes.bool,
-    navHidden: React.PropTypes.bool,
-    disabled: React.PropTypes.bool
+    static propTypes = {
+        children: React.PropTypes.node,
+        clientId: React.PropTypes.string.isRequired,
+        developerKey: React.PropTypes.string.isRequired,
+        scope: React.PropTypes.array,
+        viewId: React.PropTypes.string,
+        authImmediate: React.PropTypes.bool,
+        origin: React.PropTypes.string,
+        onChange: React.PropTypes.func,
+        createPicker: React.PropTypes.func,
+        multiselect: React.PropTypes.bool,
+        navHidden: React.PropTypes.bool,
+        disabled: React.PropTypes.bool
   };
 
   static defaultProps = {
@@ -95,6 +96,11 @@ export default class GoogleChooser extends React.Component {
   }
 
   createPicker(oauthToken) {
+
+    if(this.props.createPicker){
+      return this.props.createPicker(google, oauthToken)
+    }
+
     const googleViewId = google.picker.ViewId[this.props.viewId];
     const view = new window.google.picker.View(googleViewId);
 
