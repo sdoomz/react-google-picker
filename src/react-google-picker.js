@@ -16,6 +16,7 @@ export default class GoogleChooser extends React.Component {
         authImmediate: React.PropTypes.bool,
         origin: React.PropTypes.string,
         onChange: React.PropTypes.func,
+        onAuthenticate: React.PropTypes.func,
         createPicker: React.PropTypes.func,
         multiselect: React.PropTypes.bool,
         navHidden: React.PropTypes.bool,
@@ -24,6 +25,7 @@ export default class GoogleChooser extends React.Component {
 
   static defaultProps = {
     onChange: () => {},
+    onAuthenticate: () => {},
     scope:['https://www.googleapis.com/auth/drive.readonly'],
     viewId: 'DOCS',
     authImmediate: false,
@@ -96,6 +98,8 @@ export default class GoogleChooser extends React.Component {
   }
 
   createPicker(oauthToken) {
+
+    this.props.onAuthenticate(oauthToken);
 
     if(this.props.createPicker){
       return this.props.createPicker(google, oauthToken)
