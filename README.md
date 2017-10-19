@@ -24,8 +24,29 @@ Usage
 </GooglePicker>
 ```
 
-## Custom build method 
-You can override the default build function by passing your custom function which receives two arguments: 
+## Authentication token
+
+You might want to get the Oauth token in order to use it later, for example
+in order to [download the selected file](https://developers.google.com/drive/v3/web/manage-downloads).
+You can do so by using `onAuthenticate`:
+
+```
+<GooglePicker clientId={'your-client-id'}
+              developerKey={'your-developer-key'}
+              scope={['https://www.googleapis.com/auth/drive.readonly']}
+              onChange={data => console.log('on change:', data)}
+              onAuthenticate={token => console.log('oauth token:', token)}
+              multiselect={true}
+              navHidden={true}
+              authImmediate={false}
+              mimeTypes={['image/png', 'image/jpeg', 'image/jpg']}
+              viewId={'DOCS'}>
+   <MyCustomButton />
+</GooglePicker>
+```
+
+## Custom build method
+You can override the default build function by passing your custom function which receives two arguments:
 - `google`: a reference to the window.google object.
 - `access_token`: which you will need to pass to `setOAuthToken` method.
 ```
@@ -59,7 +80,7 @@ You can override the default build function by passing your custom function whic
             <div className="google"></div>
         </GooglePicker>
 ```
-This example creates a picker which shows folders and you can select folders. 
+This example creates a picker which shows folders and you can select folders.
 
 
 Demo
