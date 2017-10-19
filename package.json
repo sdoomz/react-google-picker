@@ -1,6 +1,6 @@
 {
   "name": "react-google-picker",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Simple react wrapper for google picker API",
   "main": "dist/react-google-picker.js",
   "scripts": {
@@ -39,6 +39,7 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.6.2",
     "express": "^4.13.4",
+    "prop-types": "^15.6.0",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
     "webpack": "^1.12.2",
