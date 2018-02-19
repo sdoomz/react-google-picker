@@ -11,7 +11,7 @@ export default class GoogleChooser extends React.Component {
     static propTypes = {
         children: PropTypes.node,
         clientId: PropTypes.string.isRequired,
-        developerKey: PropTypes.string.isRequired,
+        developerKey: PropTypes.string,
         scope: PropTypes.array,
         viewId: PropTypes.string,
         authImmediate: PropTypes.bool,
