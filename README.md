@@ -15,6 +15,7 @@ Usage
               developerKey={'your-developer-key'}
               scope={['https://www.googleapis.com/auth/drive.readonly']}
               onChange={data => console.log('on change:', data)}
+              onAuthFailed={data => console.log('on auth failed:', data)}
               multiselect={true}
               navHidden={true}
               authImmediate={false}
@@ -36,6 +37,7 @@ You can do so by using `onAuthenticate`:
               scope={['https://www.googleapis.com/auth/drive.readonly']}
               onChange={data => console.log('on change:', data)}
               onAuthenticate={token => console.log('oauth token:', token)}
+              onAuthFailed={data => console.log('on auth failed:', data)}
               multiselect={true}
               navHidden={true}
               authImmediate={false}
@@ -54,6 +56,7 @@ You can override the default build function by passing your custom function whic
               developerKey={DEVELOPER_KEY}
               scope={SCOPE}
               onChange={data => console.log('on change:', data)}
+              onAuthFailed={data => console.log('on auth failed:', data)}
               multiselect={true}
               navHidden={true}
               authImmediate={false}
