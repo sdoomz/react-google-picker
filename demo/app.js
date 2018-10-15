@@ -13,6 +13,7 @@ function App() {
                     developerKey={DEVELOPER_KEY}
                     scope={SCOPE}
                     onChange={data => console.log('on change:', data)}
+                    onAuthFailed={data => console.log('on auth failed:', data)}
                     multiselect={true}
                     navHidden={true}
                     authImmediate={false}
@@ -28,6 +29,7 @@ function App() {
                       developerKey={DEVELOPER_KEY}
                       scope={SCOPE}
                       onChange={data => console.log('on change:', data)}
+                      onAuthFailed={data => console.log('on auth failed:', data)}
                       multiselect={true}
                       navHidden={true}
                       authImmediate={false}
