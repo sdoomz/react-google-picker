@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import loadScript from 'load-script';
 
@@ -18,6 +18,7 @@ export default class GoogleChooser extends React.Component {
         origin: PropTypes.string,
         onChange: PropTypes.func,
         onAuthenticate: PropTypes.func,
+        onAuthFailed: PropTypes.func,
         createPicker: PropTypes.func,
         multiselect: PropTypes.bool,
         navHidden: PropTypes.bool,
@@ -27,6 +28,7 @@ export default class GoogleChooser extends React.Component {
   static defaultProps = {
     onChange: () => {},
     onAuthenticate: () => {},
+    onAuthFailed: () => {},
     scope:['https://www.googleapis.com/auth/drive.readonly'],
     viewId: 'DOCS',
     authImmediate: false,
@@ -94,7 +96,13 @@ export default class GoogleChooser extends React.Component {
     if (oauthToken) {
       this.createPicker(oauthToken);
     } else {
-      this.doAuth(({ access_token }) => this.createPicker(access_token));
+      this.doAuth(response => {
+        if (response.access_token) {
+          this.createPicker(response.access_token)
+        } else {
+          this.props.onAuthFailed(response);
+        }
+      });
     }
   }
 
