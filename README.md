@@ -20,6 +20,7 @@ Usage
               navHidden={true}
               authImmediate={false}
               mimeTypes={['image/png', 'image/jpeg', 'image/jpg']}
+              query={'a query string like .txt or fileName'}
               viewId={'DOCS'}>
    <MyCustomButton />
 </GooglePicker>
