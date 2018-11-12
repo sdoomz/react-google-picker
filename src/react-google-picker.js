@@ -120,6 +120,9 @@ export default class GoogleChooser extends React.Component {
     if (this.props.mimeTypes) {
       view.setMimeTypes(this.props.mimeTypes.join(','))
     }
+    if (this.props.query) {
+      view.setQuery(this.props.query)
+    }
 
     if (!view) {
       throw new Error('Can\'t find view by viewId');
