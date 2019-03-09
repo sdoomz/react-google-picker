@@ -21,6 +21,7 @@ export default class GoogleChooser extends React.Component {
     onAuthenticate: PropTypes.func,
     onAuthFailed: PropTypes.func,
     createPicker: PropTypes.func,
+    customizePicker: PropTypes.func,
     multiselect: PropTypes.bool,
     navHidden: PropTypes.bool,
     disabled: PropTypes.bool
@@ -119,8 +120,8 @@ export default class GoogleChooser extends React.Component {
     }
 
     const { viewId, mimeTypes, query } = this.props
-    const context = window.google.picker
-    const view = new context.View(context.ViewId[viewId])
+    const namespace = window.google.picker
+    const view = new namespace.View(namespace.ViewId[viewId])
 
     if (!view) {
       throw new Error("Can't find view by viewId")
@@ -134,9 +135,9 @@ export default class GoogleChooser extends React.Component {
       view.setQuery(query)
     }
 
-    const { developerKey, onChange, origin, navHidden, multiselect } = this.props
+    const { developerKey, onChange, origin, navHidden, multiselect, customizePicker } = this.props
 
-    const picker = new context.PickerBuilder()
+    const picker = new namespace.PickerBuilder()
       .addView(view)
       .setOAuthToken(oauthToken)
       .setDeveloperKey(developerKey)
@@ -147,11 +148,15 @@ export default class GoogleChooser extends React.Component {
     }
 
     if (navHidden) {
-      picker.enableFeature(context.Feature.NAV_HIDDEN)
+      picker.enableFeature(namespace.Feature.NAV_HIDDEN)
     }
 
     if (multiselect) {
-      picker.enableFeature(context.Feature.MULTISELECT_ENABLED)
+      picker.enableFeature(namespace.Feature.MULTISELECT_ENABLED)
+    }
+
+    if (customizePicker) {
+      customizePicker(picker, namespace)
     }
 
     picker.build()
