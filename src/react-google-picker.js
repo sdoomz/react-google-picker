@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import loadScript from 'load-script';
+/* global google */
 
-const GOOGLE_SDK_URL = 'https://apis.google.com/js/api.js';
+import React from 'react'
+import PropTypes from 'prop-types'
+import loadScript from 'load-script'
 
-let scriptLoadingStarted = false;
+const GOOGLE_SDK_URL = 'https://apis.google.com/js/api.js'
+
+let scriptLoadingStarted = false
 
 export default class GoogleChooser extends React.Component {
-
   static propTypes = {
     children: PropTypes.node,
     clientId: PropTypes.string.isRequired,
@@ -23,13 +24,13 @@ export default class GoogleChooser extends React.Component {
     multiselect: PropTypes.bool,
     navHidden: PropTypes.bool,
     disabled: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     onChange: () => {},
     onAuthenticate: () => {},
     onAuthFailed: () => {},
-    scope:['https://www.googleapis.com/auth/drive.readonly'],
+    scope: ['https://www.googleapis.com/auth/drive.readonly'],
     viewId: 'DOCS',
     authImmediate: false,
     multiselect: false,
@@ -37,21 +38,21 @@ export default class GoogleChooser extends React.Component {
     disabled: false
   };
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.onApiLoad = this.onApiLoad.bind(this);
-    this.onChoose = this.onChoose.bind(this);
+    this.onApiLoad = this.onApiLoad.bind(this)
+    this.onChoose = this.onChoose.bind(this)
   }
 
-  componentDidMount() {
-    if(this.isGoogleReady()) {
+  componentDidMount () {
+    if (this.isGoogleReady()) {
       // google api is already exists
       // init immediately
-      this.onApiLoad();
+      this.onApiLoad()
     } else if (!scriptLoadingStarted) {
       // load google api and the init
-      scriptLoadingStarted = true;
+      scriptLoadingStarted = true
       loadScript(GOOGLE_SDK_URL, this.onApiLoad)
     } else {
       // is loading
@@ -98,71 +99,74 @@ export default class GoogleChooser extends React.Component {
     const oauthToken = token && token.access_token
 
     if (oauthToken) {
-      this.createPicker(oauthToken);
+      this.createPicker(oauthToken)
     } else {
       this.doAuth(response => {
         if (response.access_token) {
           this.createPicker(response.access_token)
         } else {
-          this.props.onAuthFailed(response);
+          this.props.onAuthFailed(response)
         }
-      });
+      })
     }
   }
 
-  createPicker(oauthToken) {
+  createPicker (oauthToken) {
+    this.props.onAuthenticate(oauthToken)
 
-    this.props.onAuthenticate(oauthToken);
-
-    if(this.props.createPicker){
+    if (this.props.createPicker) {
       return this.props.createPicker(google, oauthToken)
     }
 
-    const googleViewId = google.picker.ViewId[this.props.viewId];
-    const view = new window.google.picker.View(googleViewId);
+    const { viewId, mimeTypes, query } = this.props
+    const context = window.google.picker
+    const view = new context.View(context.ViewId[viewId])
 
     if (!view) {
-      throw new Error("Can't find view by viewId");
+      throw new Error("Can't find view by viewId")
     }
 
-    if (this.props.mimeTypes) {
-      view.setMimeTypes(this.props.mimeTypes.join(','))
-    }
-    if (this.props.query) {
-      view.setQuery(this.props.query)
+    if (mimeTypes) {
+      view.setMimeTypes(mimeTypes.join(','))
     }
 
-    const picker = new window.google.picker.PickerBuilder()
-                             .addView(view)
-                             .setOAuthToken(oauthToken)
-                             .setDeveloperKey(this.props.developerKey)
-                             .setCallback(this.props.onChange);
-
-    if (this.props.origin) {
-      picker.setOrigin(this.props.origin);
+    if (query) {
+      view.setQuery(query)
     }
 
-    if (this.props.navHidden) {
-      picker.enableFeature(window.google.picker.Feature.NAV_HIDDEN)
+    const { developerKey, onChange, origin, navHidden, multiselect } = this.props
+
+    const picker = new context.PickerBuilder()
+      .addView(view)
+      .setOAuthToken(oauthToken)
+      .setDeveloperKey(developerKey)
+      .setCallback(onChange)
+
+    if (origin) {
+      picker.setOrigin(origin)
     }
 
-    if (this.props.multiselect) {
-      picker.enableFeature(window.google.picker.Feature.MULTISELECT_ENABLED)
+    if (navHidden) {
+      picker.enableFeature(context.Feature.NAV_HIDDEN)
+    }
+
+    if (multiselect) {
+      picker.enableFeature(context.Feature.MULTISELECT_ENABLED)
     }
 
     picker.build()
-          .setVisible(true);
+      .setVisible(true)
   }
 
-  render() {
+  render () {
     return (
       <div onClick={this.onChoose}>
         {
-          this.props.children ?
-            this.props.children :
-            <button>Open google chooser</button>
+          this.props.children
+            ? this.props.children
+            : <button>Open google chooser</button>
         }
       </div>
-    );
+    )
   }
 }
