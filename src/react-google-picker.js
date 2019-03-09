@@ -58,40 +58,44 @@ export default class GoogleChooser extends React.Component {
     }
   }
 
-  isGoogleReady() {
-    return !!window.gapi;
+  api () {
+    return window.gapi
   }
 
-  isGoogleAuthReady() {
-    return !!window.gapi.auth;
+  isGoogleReady () {
+    return !!this.api()
   }
 
-  isGooglePickerReady() {
-    return !!window.google.picker;
+  isGoogleAuthReady () {
+    return !!this.api().auth
   }
 
-  onApiLoad() {
-    window.gapi.load('auth');
-    window.gapi.load('picker');
+  isGooglePickerReady () {
+    return !!this.api().picker
   }
 
-  doAuth(callback) {
-    window.gapi.auth.authorize({
-        client_id: this.props.clientId,
-        scope: this.props.scope,
-        immediate: this.props.authImmediate
-      },
-      callback
-    );
+  onApiLoad () {
+    this.api().load('auth')
+    this.api().load('picker')
   }
 
-  onChoose() {
+  doAuth (callback) {
+    this.api().auth.authorize({
+      client_id: this.props.clientId,
+      scope: this.props.scope,
+      immediate: this.props.authImmediate
+    },
+    callback
+    )
+  }
+
+  onChoose () {
     if (!this.isGoogleReady() || !this.isGoogleAuthReady() || !this.isGooglePickerReady() || this.props.disabled) {
-      return null;
+      return null
     }
 
-    const token = window.gapi.auth.getToken();
-    const oauthToken = token && token.access_token;
+    const token = this.api().auth.getToken()
+    const oauthToken = token && token.access_token
 
     if (oauthToken) {
       this.createPicker(oauthToken);
