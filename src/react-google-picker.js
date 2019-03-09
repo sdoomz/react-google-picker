@@ -8,21 +8,21 @@ let scriptLoadingStarted = false;
 
 export default class GoogleChooser extends React.Component {
 
-    static propTypes = {
-        children: PropTypes.node,
-        clientId: PropTypes.string.isRequired,
-        developerKey: PropTypes.string,
-        scope: PropTypes.array,
-        viewId: PropTypes.string,
-        authImmediate: PropTypes.bool,
-        origin: PropTypes.string,
-        onChange: PropTypes.func,
-        onAuthenticate: PropTypes.func,
-        onAuthFailed: PropTypes.func,
-        createPicker: PropTypes.func,
-        multiselect: PropTypes.bool,
-        navHidden: PropTypes.bool,
-        disabled: PropTypes.bool
+  static propTypes = {
+    children: PropTypes.node,
+    clientId: PropTypes.string.isRequired,
+    developerKey: PropTypes.string,
+    scope: PropTypes.array,
+    viewId: PropTypes.string,
+    authImmediate: PropTypes.bool,
+    origin: PropTypes.string,
+    onChange: PropTypes.func,
+    onAuthenticate: PropTypes.func,
+    onAuthFailed: PropTypes.func,
+    createPicker: PropTypes.func,
+    multiselect: PropTypes.bool,
+    navHidden: PropTypes.bool,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -117,15 +117,15 @@ export default class GoogleChooser extends React.Component {
     const googleViewId = google.picker.ViewId[this.props.viewId];
     const view = new window.google.picker.View(googleViewId);
 
+    if (!view) {
+      throw new Error("Can't find view by viewId");
+    }
+
     if (this.props.mimeTypes) {
       view.setMimeTypes(this.props.mimeTypes.join(','))
     }
     if (this.props.query) {
       view.setQuery(this.props.query)
-    }
-
-    if (!view) {
-      throw new Error('Can\'t find view by viewId');
     }
 
     const picker = new window.google.picker.PickerBuilder()
