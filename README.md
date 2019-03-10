@@ -96,9 +96,11 @@ You can also simply further customize the picker that was built with the props y
               onAuthFailed={data => console.log('on auth failed:', data)}
               authImmediate={false}
               viewId={'FOLDERS'}
-              customizePicker={ (picker, namespace) => {
+              customizePicker={ (picker, { namespace, view, buildView }) => {
                 // `picker` = the instance of `PickerBuilder` with all props opions applied
                 // `namespace` = reference to `window.google.picker` namespace
+                // `view` = the instance of view specified by the `viewId` prop
+                // `buildView` = function to build additional views (handles sub-classing views)
 
                 // Add additonal features
                 picker.enableFeature(namespace.Feature.SIMPLE_UPLOAD_ENABLED)
