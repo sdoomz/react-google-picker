@@ -12,6 +12,7 @@ export default class GoogleChooser extends React.Component {
         children: PropTypes.node,
         clientId: PropTypes.string.isRequired,
         developerKey: PropTypes.string,
+        oauthToken: PropTypes.string,
         scope: PropTypes.array,
         viewId: PropTypes.string,
         authImmediate: PropTypes.bool,
@@ -90,8 +91,12 @@ export default class GoogleChooser extends React.Component {
       return null;
     }
 
-    const token = window.gapi.auth.getToken();
-    const oauthToken = token && token.access_token;
+    let oauthToken = this.props.oauthToken
+
+    if (!oauthToken) {
+      const token = window.gapi.auth.getToken();
+      oauthToken = token && token.access_token;
+    }
 
     if (oauthToken) {
       this.createPicker(oauthToken);
