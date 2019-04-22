@@ -91,8 +91,12 @@ export default class GoogleChooser extends React.Component {
       return null;
     }
 
-    const token = window.gapi.auth.getToken();
-    const oauthToken = this.props.oauthToken || (token && token.access_token);
+    let oauthToken = this.props.oauthToken
+
+    if (!oauthToken) {
+      const token = window.gapi.auth.getToken();
+      oauthToken = token && token.access_token;
+    }
 
     if (oauthToken) {
       this.createPicker(oauthToken);
