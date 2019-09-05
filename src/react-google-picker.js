@@ -20,6 +20,7 @@ export default class GoogleChooser extends React.Component {
         onAuthenticate: PropTypes.func,
         onAuthFailed: PropTypes.func,
         createPicker: PropTypes.func,
+        locale: PropTypes.string,
         multiselect: PropTypes.bool,
         navHidden: PropTypes.bool,
         disabled: PropTypes.bool
@@ -144,6 +145,10 @@ export default class GoogleChooser extends React.Component {
 
     if (this.props.multiselect) {
       picker.enableFeature(window.google.picker.Feature.MULTISELECT_ENABLED)
+    }
+      
+    if (this.props.locale) {
+      picker.setLocale(this.props.locale)
     }
 
     picker.build()
