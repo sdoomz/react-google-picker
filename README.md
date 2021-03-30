@@ -86,6 +86,33 @@ You can override the default build function by passing your custom function whic
 ```
 This example creates a picker which shows folders and you can select folders.
 
+### Customize the pre-built picker
+You can also simply further customize the picker that was built with the props you specified.
+```
+<GooglePicker clientId={CLIENT_ID}
+              developerKey={DEVELOPER_KEY}
+              scope={SCOPE}
+              onChange={data => console.log('on change:', data)}
+              onAuthFailed={data => console.log('on auth failed:', data)}
+              authImmediate={false}
+              viewId={'FOLDERS'}
+              customizePicker={ (picker, { namespace, view, buildView }) => {
+                // `picker` = the instance of `PickerBuilder` with all props opions applied
+                // `namespace` = reference to `window.google.picker` namespace
+                // `view` = the instance of view specified by the `viewId` prop
+                // `buildView` = function to build additional views (handles sub-classing views)
+
+                // Add additonal features
+                picker.enableFeature(namespace.Feature.SIMPLE_UPLOAD_ENABLED)
+                picker.enableFeature(namespace.Feature.SUPPORT_TEAM_DRIVES)
+            }}
+        >
+            <span>Click</span>
+            <div className="google"></div>
+        </GooglePicker>
+```
+This example creates a picker which has uploading and team drives enabled.
+
 
 Demo
 ====
